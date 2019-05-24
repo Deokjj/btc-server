@@ -10,6 +10,7 @@ const userRoute = require("./api/routes/user");
 const coinbaseRoute = require("./api/routes/coinbase");
 
 require('./passport-config');
+require('dotenv').config();
 
 //connect mongodb Atlas with mongoose
 mongoose.connect(
