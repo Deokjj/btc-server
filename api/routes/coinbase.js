@@ -14,18 +14,27 @@ router.post('/currency',(req,res,next) => {
   const {currency, ratesFor} = req.body;
   
   //Do a HTTP request to coinbase API to get currencies
-  request(`https://api.coinbase.com/v2/exchange-rates${(currency ? '?currency=BTC' : '')}`, { json: true }, (err, coinbaseRes, body) => {
+  request(`https://api.coinbase.com/v2/exchange-rates${(currency ? '?currency=BTC' : '')}`, { json: true }, 
+  (err, coinbaseRes, body) => {
     if (err) { res.status(400).json({error:err}); }
     
     //Get only the rates requested
     const result = {};
-    const rates = body['data']['rates'];
-    ratesFor.forEach((key) => {
-      result[key] = rates[key];
-    });
-    
-    //Response with the rates
-    res.status(201).json(result);
+    if(body && body.hasOwnProperty('data') && body['data'].hasOwnProperty('rates')){
+      const rates = body['data']['rates'];
+      ratesFor.forEach((key) => {
+        result[key] = rates[key];
+      });
+      
+      //Response with the rates
+      res.status(201).json(result);
+    }
+    else{
+      console.log("body was not returned properly");
+      res.status(503).json({
+        body : body
+      });
+    }
   });
   
 });

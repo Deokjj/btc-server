@@ -6,11 +6,13 @@ const User = require('./api/models/user');
 
 // Save the user's ID in the bowl (called when user logs in)
 passport.serializeUser((userFromDb, next) => {
+    // console.log(userFromDb._id);
     next(null, userFromDb._id);
 });
 
 // Retrieve the user's info from the DB with the ID we got from the bowl
 passport.deserializeUser((idFromBowl, next) => {
+    // console.log(idFromBowl);
     UserModel.findById(
       idFromBowl,
       (err, userFromDb) => {
