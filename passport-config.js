@@ -13,7 +13,7 @@ passport.serializeUser((userFromDb, next) => {
 // Retrieve the user's info from the DB with the ID we got from the bowl
 passport.deserializeUser((idFromBowl, next) => {
     // console.log(idFromBowl);
-    UserModel.findById(
+    User.findById(
       idFromBowl,
       (err, userFromDb) => {
           if (err) {
